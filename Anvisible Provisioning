@@ -1,0 +1,43 @@
+#slave
+docker run -it --name whitehat2 ubuntu
+apt update
+apt install ssh net-tools sudo vim ansible
+adduser hogu #사용자 설정
+visudo -f/etc/sudoers
+
+# 44ln 
+# test ALL =(ALL:ALL)NOPASSWD:ALL
+
+ls -l /hoguhogu  #slave에 /hoguhogu가 있는지 확인
+
+
+#master
+docker run -it --name whitehat1 ubuntu
+apt update
+apt install net-tools vim ansible
+ssh-keygen -t rsa
+ssh-copy-id -i ~/.ssh/id_rsa.pub test@[slave's ip address]
+
+mkdir /etc/ansible
+vi /etc/ansible/hosts
+# [clients]
+# [Slave's ip address] ansible_user=hogu
+
+ansible clients -m ping
+cd && vi security.yml
+
+# - name: Security Settings Provisioning
+#   hosts: clients
+#   tasks:
+#    - name: Update all packages to the latest version
+#      become:yes
+#      apt:
+#       upgrad: dist
+
+# - name: Creates file
+#   become: yes
+#   file:
+#     path: /hoguhogu
+#     state: touch
+
+ansible-playbook security.yml
