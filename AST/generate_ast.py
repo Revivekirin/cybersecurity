@@ -4,7 +4,7 @@ import re
 from unittest.mock import patch
 
 # Modify sys.argv with a new list of arguments
-new_arguments = ["controls.c"]
+new_arguments = [“ast_anlyzer.c", "controls.c"]
 sys.argv = new_arguments
 
 
